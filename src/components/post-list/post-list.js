@@ -1,4 +1,5 @@
-import PostListItem from '../post-list-item'
+import PostListItem from '../post-list-item';
+import './post-list.css';
 const PostList = ({posts})=> {
     const elements = posts.map((item) => {
         return(

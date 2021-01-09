@@ -12,10 +12,9 @@ const data = [{label: "Помыть посуду", important: true}, {
 }, {label: "Купить молоко", important: true}]
 
 const App = () => {
-    return <div>
+    return <div className={'app'}>
         <div><AppHeader/></div>
-        <div><SearchPanel/></div>
-        <div><PostStatusFilter/></div>
+        <div className={'search-panel d-flex'}><SearchPanel/><PostStatusFilter/></div>
         <div><PostList posts={data}/></div>
         <div><PostAddForm/></div>
     </div>
