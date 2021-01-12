@@ -2,7 +2,7 @@ import './app-search-panel.css';
 // import React from 'react'
 const SearchPanel = () => {
     return (<input className="search-input form-control"
-                   type='text' placeholder='Заполни меня'/>
+                   type='text' placeholder='Поиск'/>
     )
 }
 
