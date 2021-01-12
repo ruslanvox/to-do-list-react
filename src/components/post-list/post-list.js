@@ -4,7 +4,7 @@ const PostList = ({posts, onDelete})=> {
     const elements = posts.map((item) => {
         return(
 <li key={item.id} className={"list-group-item"}>
-    <PostListItem label={item.label} onDelete={() => console.log(item.id)}/>
+    <PostListItem label={item.label} onDelete={() => onDelete(item.id)}/>
 </li>
         )
     })
