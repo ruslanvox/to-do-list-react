@@ -23,16 +23,18 @@ export default class App extends Component {
 
     }
 
-    onImportant() {
-        this.setState(({important}) => (
-            {important: !important}
-        ))
+    onImportant(id) {
+        // this.setState(({important}) => (
+        //     {important: !important}
+        // ))
+        console.log(id)
     }
 
-    onLike() {
-        this.setState(({like}) => (
-            {like: !like}
-        ))
+    onLike(id) {
+        // this.setState(({like}) => (
+        //     {like: !like}
+        // ))
+        console.log(id)
     }
 
     render() {
