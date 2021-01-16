@@ -7,9 +7,9 @@ const PostList = ({posts, onDelete, onLike, onImportant}) => {
         return (
             <li key={i.id} className={"list-group-item"}>
                 <PostListItem label={i.label}
-                              onDelete={onDelete(i.id)}
-                              onLike={onLike(i.id)}
-                              onImportant={onImportant(i.id)}/>
+                              onDelete={()=>onDelete(i.id)}
+                              onLike={()=>onLike(i.id)}
+                              onImportant={()=>onImportant(i.id)}/>
             </li>
         )
     })
