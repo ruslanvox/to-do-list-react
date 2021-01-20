@@ -12,8 +12,8 @@ export default class App extends Component {
         this.state = {
             data: [
                 {label: "Помыть посуду", important: true, id: 123, like: false},
-                {label: "Вынести мусор", important: true, id: 456, like: false},
-                {label: "Купить молоко", important: true, id: 789, like: false}
+                {label: "Вынести мусор", important: false, id: 456, like: false},
+                {label: "Купить молоко", important: false, id: 789, like: false}
             ]
         }
         this.onDelete = this.onDelete.bind(this);
@@ -24,16 +24,34 @@ export default class App extends Component {
     }
 
     onImportant(id) {
-        this.setState(({important}) => (
-            {important: !important}
-        ))
+        // console.log(id)
+        this.setState(({data}) => {
+                let newData = Array.from(data);
+                let index = newData.findIndex((elem) => {
+                    return elem.id === id;
+                })
+               let testData = (newData[index].important = !newData[index].important) ;
+                console.log(testData)
+            console.log(index)
+                return {data:newData}
+            }
+        )
 
     }
 
     onLike(id) {
-        this.setState(({like}) => (
-            {like: !like}
-        ))
+        console.log(id)
+        this.setState(({data}) => {
+                let newData = Array.from(data);
+                let index = newData.findIndex((elem) => {
+                    return elem.id === id;
+                })
+                // newData[index].like = !newData[index].like ;
+                console.log(newData[index])
+                console.log(index)
+                return {data:newData}
+            }
+        )
 
     }
 

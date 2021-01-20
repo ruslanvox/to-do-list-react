@@ -1,11 +1,11 @@
 import './post-list-item.css';
 import {Component} from 'react';
 
-const postListItem = ({label, onDelete, onLike, onImportant}) => {
+const postListItem = ({label, onDelete, onLike, onImportant, important, like}) => {
     let classNames = "app-list-item d-flex justify-content-between";
-    // if (important == true) {
-    //     classNames += " important"
-    // }
+    if (important == true) {
+        classNames += " important"
+    }
     // if(like == true) {
     //     classNames += " like"
     // }
