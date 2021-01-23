@@ -9,31 +9,54 @@ import {Component} from "react"
 export default class App extends Component {
     constructor(props) {
         super(props);
+        this.count = 4;
         this.state = {
+            filteredData:[],
             data: [
-                {label: "Помыть посуду", important: true, id: 123, like: false},
-                {label: "Вынести мусор", important: false, id: 456, like: false},
-                {label: "Купить молоко", important: false, id: 789, like: false}
+                {label: "Помыть посуду", important: false, id: 1, like: false},
+                {label: "Вынести мусор", important: false, id: 2, like: false},
+                {label: "Купить молоко", important: false, id: 3, like: false}
             ]
         }
+        this.state.filteredData = this.state.data;
         this.onDelete = this.onDelete.bind(this);
         this.onLike = this.onLike.bind(this);
         this.onImportant = this.onImportant.bind(this)
+        this.addPost = this.addPost.bind(this)
+        this.onSearch = this.onSearch.bind(this)
 
 
     }
 
+    addPost(text) {
+        let newElement = {label: text, important: false, id: this.count++, like: false}
+        this.setState((state) => {
+            let newData = state.data.slice()
+            newData.push(newElement)
+            return {data: newData}
+        })
+    }
+
+    onSearch(text) {
+        this.setState((state) => {
+            let newData = state.data.filter((elem) => {
+                return elem.label.indexOf(text) !== -1;
+            })
+            return {filteredData: newData}
+
+        })
+    }
+
+
     onImportant(id) {
         // console.log(id)
-        this.setState(({data}) => {
-                let newData = Array.from(data);
+        this.setState((state) => {
+                let newData = JSON.parse(JSON.stringify(state.data));
                 let index = newData.findIndex((elem) => {
                     return elem.id === id;
                 })
-               let testData = (newData[index].important = !newData[index].important) ;
-                console.log(testData)
-            console.log(index)
-                return {data:newData}
+                newData[index].important = !newData[index].important;
+                return {filteredData: newData}
             }
         )
 
@@ -42,26 +65,28 @@ export default class App extends Component {
     onLike(id) {
         console.log(id)
         this.setState(({data}) => {
-                let newData = Array.from(data);
+                let newData = JSON.parse(JSON.stringify(data));
                 let index = newData.findIndex((elem) => {
                     return elem.id === id;
                 })
-                // newData[index].like = !newData[index].like ;
-                console.log(newData[index])
-                console.log(index)
-                return {data:newData}
+                newData[index].like = !newData[index].like;
+                return {filteredData: newData}
             }
         )
 
     }
 
     render() {
+        let postCount = this.state.data.length;
+        let likeCount = this.state.data.filter((elem) => {
+          return elem.like == true
+        }).length;
         return <div className={'app'}>
-            <div><AppHeader/></div>
-            <div className={'search-panel d-flex'}><SearchPanel/><PostStatusFilter/></div>
-            <div><PostList posts={this.state.data} onDelete={this.onDelete}
+            <div><AppHeader allPosts={postCount} totalLiked={likeCount} /></div>
+            <div className={'search-panel d-flex'}><SearchPanel onSearch={this.onSearch}/><PostStatusFilter/></div>
+            <div><PostList posts={this.state.filteredData} onDelete={this.onDelete}
                            onLike={this.onLike} onImportant={this.onImportant}/></div>
-            <div><PostAddForm/></div>
+            <div><PostAddForm onAdd={this.addPost}/></div>
         </div>
     }
 

@@ -1,7 +1,7 @@
 import PostListItem from '../post-list-item';
 import './post-list.css';
 
-const PostList = ({posts, onDelete, onLike, onImportant}) => {
+const PostList = ({posts, onDelete, onLike, onImportant, like, important}) => {
     const elements = posts.map((i) => {
         return (
             <li key={i.id} className={"list-group-item"}>

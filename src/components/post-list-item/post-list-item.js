@@ -6,9 +6,9 @@ const postListItem = ({label, onDelete, onLike, onImportant, important, like}) =
     if (important == true) {
         classNames += " important"
     }
-    // if(like == true) {
-    //     classNames += " like"
-    // }
+    if(like == true) {
+        classNames += " like"
+    }
     return (<div className={classNames}>
         <span onClick={onLike} className={'app-list-item-label'}>{label}</span>
         <div className={classNames}>
