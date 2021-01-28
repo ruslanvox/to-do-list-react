@@ -16,7 +16,7 @@ export default class App extends Component {
                 {label: "Помыть посуду", important: false, id: 1, like: false},
                 {label: "Вынести мусор", important: false, id: 2, like: false},
                 {label: "Купить молоко", important: false, id: 3, like: false}
-            ]
+            ], term: ''
         }
         this.state.filteredData = this.state.data;
         this.onDelete = this.onDelete.bind(this);
@@ -42,7 +42,7 @@ export default class App extends Component {
             let newData = state.data.filter((elem) => {
                 return elem.label.indexOf(text) !== -1;
             })
-            return {filteredData: newData}
+            return {data: newData}
 
         })
     }
@@ -56,7 +56,7 @@ export default class App extends Component {
                     return elem.id === id;
                 })
                 newData[index].important = !newData[index].important;
-                return {filteredData: newData}
+                return {data: newData}
             }
         )
 
@@ -70,7 +70,7 @@ export default class App extends Component {
                     return elem.id === id;
                 })
                 newData[index].like = !newData[index].like;
-                return {filteredData: newData}
+                return {data: newData}
             }
         )
 
@@ -84,7 +84,7 @@ export default class App extends Component {
         return <div className={'app'}>
             <div><AppHeader allPosts={postCount} totalLiked={likeCount} /></div>
             <div className={'search-panel d-flex'}><SearchPanel onSearch={this.onSearch}/><PostStatusFilter/></div>
-            <div><PostList posts={this.state.filteredData} onDelete={this.onDelete}
+            <div><PostList posts={this.state.data} onDelete={this.onDelete}
                            onLike={this.onLike} onImportant={this.onImportant}/></div>
             <div><PostAddForm onAdd={this.addPost}/></div>
         </div>
