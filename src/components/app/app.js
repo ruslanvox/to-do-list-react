@@ -11,12 +11,12 @@ export default class App extends Component {
         super(props);
         this.count = 4;
         this.state = {
-            filteredData:[],
+            filteredData: [],
             data: [
                 {label: "Помыть посуду", important: false, id: 1, like: false},
                 {label: "Вынести мусор", important: false, id: 2, like: false},
                 {label: "Купить молоко", important: false, id: 3, like: false}
-            ], term: ''
+            ], term: '', filter: 'all'
         }
         this.state.filteredData = this.state.data;
         this.onDelete = this.onDelete.bind(this);
@@ -24,6 +24,7 @@ export default class App extends Component {
         this.onImportant = this.onImportant.bind(this)
         this.addPost = this.addPost.bind(this)
         this.onValueChange = this.onValueChange.bind(this)
+        this.onFilterSelect = this.onFilterSelect.bind(this)
 
 
     }
@@ -38,19 +39,26 @@ export default class App extends Component {
     }
 
     searchPost(items, term) {
-        if(term.length === 0) {
+        if (term.length === 0) {
             return items
         }
-       return items.filter((item) => {
+        return items.filter((item) => {
             return item.label.indexOf(term) > -1
         })
 
     }
 
+    filterPost(items, filter) {
+        if (items === 'like') {
+            return items.filter((item) => {
+                return item.like
+            })
+        } else return items
+    }
+
     onValueChange(term) {
         this.setState({term})
     }
-
 
     onImportant(id) {
         // console.log(id)
@@ -67,7 +75,6 @@ export default class App extends Component {
     }
 
     onLike(id) {
-        console.log(id)
         this.setState(({data}) => {
                 let newData = JSON.parse(JSON.stringify(data));
                 let index = newData.findIndex((elem) => {
@@ -79,17 +86,22 @@ export default class App extends Component {
         )
 
     }
+    onFilterSelect(filter) {
+        this.setState({filter})
+        console.log('Filtered')
+    }
 
     render() {
-        const {data, term} = this.state;
-        const visiblePosts = this.searchPost(data, term);
+        const {data, term, filter} = this.state;
+        const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
         let postCount = this.state.data.length;
         let likeCount = this.state.data.filter((elem) => {
-          return elem.like == true
+            return elem.like == true
         }).length;
         return <div className={'app'}>
-            <div><AppHeader allPosts={postCount} totalLiked={likeCount} /></div>
-            <div className={'search-panel d-flex'}><SearchPanel onValueChange={this.onValueChange}/><PostStatusFilter/></div>
+            <div><AppHeader allPosts={postCount} totalLiked={likeCount}/></div>
+            <div className={'search-panel d-flex'}><SearchPanel onValueChange={this.onValueChange}/><PostStatusFilter
+                filter={filter} onFilterSelect={this.onFilterSelect}/></div>
             <div><PostList posts={visiblePosts} onDelete={this.onDelete}
                            onLike={this.onLike} onImportant={this.onImportant}/></div>
             <div><PostAddForm onAdd={this.addPost}/></div>
