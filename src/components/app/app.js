@@ -23,7 +23,7 @@ export default class App extends Component {
         this.onLike = this.onLike.bind(this);
         this.onImportant = this.onImportant.bind(this)
         this.addPost = this.addPost.bind(this)
-        this.onSearch = this.onSearch.bind(this)
+        this.onValueChange = this.onValueChange.bind(this)
 
 
     }
@@ -37,14 +37,18 @@ export default class App extends Component {
         })
     }
 
-    onSearch(text) {
-        this.setState((state) => {
-            let newData = state.data.filter((elem) => {
-                return elem.label.indexOf(text) !== -1;
-            })
-            return {data: newData}
-
+    searchPost(items, term) {
+        if(term.length === 0) {
+            return items
+        }
+       return items.filter((item) => {
+            return item.label.indexOf(term) > -1
         })
+
+    }
+
+    onValueChange(term) {
+        this.setState({term})
     }
 
 
@@ -77,14 +81,16 @@ export default class App extends Component {
     }
 
     render() {
+        const {data, term} = this.state;
+        const visiblePosts = this.searchPost(data, term);
         let postCount = this.state.data.length;
         let likeCount = this.state.data.filter((elem) => {
           return elem.like == true
         }).length;
         return <div className={'app'}>
             <div><AppHeader allPosts={postCount} totalLiked={likeCount} /></div>
-            <div className={'search-panel d-flex'}><SearchPanel onSearch={this.onSearch}/><PostStatusFilter/></div>
-            <div><PostList posts={this.state.data} onDelete={this.onDelete}
+            <div className={'search-panel d-flex'}><SearchPanel onValueChange={this.onValueChange}/><PostStatusFilter/></div>
+            <div><PostList posts={visiblePosts} onDelete={this.onDelete}
                            onLike={this.onLike} onImportant={this.onImportant}/></div>
             <div><PostAddForm onAdd={this.addPost}/></div>
         </div>
