@@ -4,14 +4,18 @@ import react, {Component} from 'react'
 export default class PostStatusFilter extends Component {
     constructor(props) {
         super(props);
-        this.buttons = [{name: 'all', label: 'Все'}, {name: 'like', label: 'Понравилось'}]
+        this.buttons = [
+            {name: 'all', label: 'Все'},
+            {name: 'like', label: 'Понравилось'},
+            {name: 'important', label: 'Важное'}]
     }
 
     render() {
 
         const buttons = this.buttons.map(({name, label}) => {
-            const active = this.props.filter === name;
-            const clazz = active ? 'btn-info' : 'btn-outline-secondary';
+            // тернарный оператор условия if, сокращенная запись
+            const clazz = this.props.filter === name ? 'btn-info' : 'btn-outline-secondary';
+
             return (
                 <button key={name}
                         className={`btn ${clazz}`}

@@ -6,6 +6,7 @@ import PostAddForm from '../post-add-form'
 import './app.css'
 import {Component} from "react"
 
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -43,17 +44,22 @@ export default class App extends Component {
             return items
         }
         return items.filter((item) => {
-            return item.label.indexOf(term) > -1
+            return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1
         })
 
     }
 
     filterPost(items, filter) {
-        if (items === 'like') {
-            return items.filter((item) => {
-                return item.like
+        if (filter === 'like') {
+            return items.filter((elem) => {
+                return elem.like == true
             })
-        } else return items
+        } else if(filter === 'important') {
+            return items.filter((elem) => {
+                return elem.important == true
+            })
+        }
+        else return items
     }
 
     onValueChange(term) {
@@ -88,12 +94,12 @@ export default class App extends Component {
     }
     onFilterSelect(filter) {
         this.setState({filter})
-        console.log('Filtered')
     }
 
     render() {
         const {data, term, filter} = this.state;
-        const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
+        // const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
+        const visiblePosts = this.searchPost(this.filterPost(data, filter), term);
         let postCount = this.state.data.length;
         let likeCount = this.state.data.filter((elem) => {
             return elem.like == true
